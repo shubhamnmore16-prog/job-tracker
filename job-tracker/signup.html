@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sign Up - AI Job Tracker</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    /* --- CSS VARIABLES & RESET (Same as Login Page) --- */
+    :root {
+      --primary: #4f46e5;
+      --primary-dark: #4338ca;
+      --error: #ef4444;
+      --success: #10b981;
+      --glass-bg: rgba(255, 255, 255, 0.85);
+      --glass-border: rgba(255, 255, 255, 0.5);
+      --text-dark: #1f2937;
+      --text-light: #6b7280;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden; /* Prevent horizontal scroll */
+    }
+
+    /* Animated Background Shapes */
+    .shape {
+      position: absolute;
+      filter: blur(50px);
+      z-index: 0;
+      animation: float 10s infinite alternate;
+    }
+    .shape-1 {
+      top: -10%; left: -10%; width: 300px; height: 300px;
+      background: #ff00cc; border-radius: 50%; opacity: 0.4;
+    }
+    .shape-2 {
+      bottom: -10%; right: -5%; width: 250px; height: 250px;
+      background: #33ccff; border-radius: 50%; opacity: 0.4; animation-delay: -5s;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(30px, 50px); }
+    }
+
+    /* --- SIGNUP CARD --- */
+    .signup-card {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 420px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+      text-align: center;
+      margin: 20px; /* For mobile spacing */
+    }
+
+    .signup-card h2 {
+      color: var(--text-dark);
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    
+    .signup-card p {
+      color: var(--text-light);
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    /* --- INPUT GROUPS --- */
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .input-group i {
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      font-size: 18px;
+      transition: 0.3s;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 45px;
+      background: #f3f4f6;
+      border: 2px solid transparent;
+      border-radius: 12px;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.3s;
+      font-family: inherit;
+    }
+
+    .input-group input:focus {
+      background: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 4px 15px rgba(79, 70, 229, 0.1);
+    }
+
+    .input-group input:focus + i {
+      color: var(--primary);
+    }
+
+    /* --- BUTTONS --- */
+    .btn-signup {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-signup:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(79, 70, 229, 0.4);
+    }
+
+    /* Google Button */
+    .btn-google {
+      width: 100%;
+      padding: 12px;
+      background: white;
+      color: #333;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: 0.2s;
+      margin-top: 15px;
+    }
+    
+    .btn-google:hover {
+      background: #f9f9f9;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .google-icon { color: #DB4437; font-size: 18px; }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      color: var(--text-light);
+      font-size: 12px;
+    }
+    .divider::before, .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #e5e7eb;
+    }
+    .divider span { margin: 0 10px; }
+
+    /* Footer */
+    .footer-links {
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--text-light);
+    }
+    .footer-links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .footer-links a:hover { text-decoration: underline; }
+
+    /* Toast Notification */
+    #toast {
+      visibility: hidden;
+      min-width: 250px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 8px;
+      padding: 16px;
+      position: fixed;
+      z-index: 100;
+      top: 30px;
+      right: 30px;
+      font-size: 14px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      opacity: 0;
+      transition: opacity 0.5s, top 0.5s;
+    }
+    #toast.show { visibility: visible; opacity: 1; top: 50px; }
+    #toast.error { background-color: var(--error); }
+    #toast.success { background-color: var(--success); }
+
+  </style>
+</head>
+<body>
+
+  <div class="shape shape-1"></div>
+  <div class="shape shape-2"></div>
+
+  <div id="toast">Message here</div>
+
+  <div class="signup-card">
+    <h2>Create Account</h2>
+    <p>Join AI Job Tracker to start your journey.</p>
+
+    <form id="signupForm" novalidate>
+      
+      <div class="input-group">
+        <input type="text" id="fullName" placeholder="Full Name" required>
+        <i class="fas fa-user"></i>
+      </div>
+
+      <div class="input-group">
+        <input type="email" id="email" placeholder="Email Address" required>
+        <i class="fas fa-envelope"></i>
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Password (Min 6 chars)" required>
+        <i class="fas fa-lock"></i>
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+        <i class="fas fa-check-circle"></i>
+      </div>
+
+      <button type="submit" class="btn-signup" id="signupBtn">Sign Up</button>
+
+    </form>
+
+    <div class="divider">
+      <span>OR CONTINUE WITH</span>
+    </div>
+
+    <button class="btn-google" id="googleBtn">
+      <i class="fab fa-google google-icon"></i>
+      Sign up with Google
+    </button>
+
+    <div class="footer-links">
+      <p>Already have an account? <a href="login.html">Login Here</a></p>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <script>
+    // --- 1. FIREBASE CONFIGURATION ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyBSBijnLqmZOW0MGBLT3ZhxOZt0PqBt6S8",
+      authDomain: "royal-look-b4ec5.firebaseapp.com",
+      databaseURL: "https://royal-look-b4ec5-default-rtdb.firebaseio.com",
+      projectId: "royal-look-b4ec5",
+      storageBucket: "royal-look-b4ec5.firebasestorage.app",
+      messagingSenderId: "764728705871",
+      appId: "1:764728705871:web:7a84c3519f45e5e7863b3a",
+      measurementId: "G-6KEMRJ1NY0"
+    };
+
+    // Initialize Firebase
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const auth = firebase.auth();
+    const googleProvider = new firebase.auth.GoogleAuthProvider();
+
+    // --- 2. LOGIC ---
+    const signupForm = document.getElementById('signupForm');
+    const toast = document.getElementById('toast');
+    const signupBtn = document.getElementById('signupBtn');
+
+    function showToast(message, type) {
+      toast.textContent = message;
+      toast.className = type;
+      toast.classList.add('show');
+      setTimeout(() => { toast.classList.remove('show'); }, 3000);
+    }
+
+    // --- 3. EMAIL/PASSWORD SIGNUP ---
+    signupForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPass = document.getElementById('confirmPassword').value;
+
+      // Validation
+      if (!name || !email || !password || !confirmPass) {
+        showToast("Please fill in all fields", "error");
+        return;
+      }
+      if (password !== confirmPass) {
+        showToast("Passwords do not match", "error");
+        return;
+      }
+      if (password.length < 6) {
+        showToast("Password must be at least 6 characters", "error");
+        return;
+      }
+
+      signupBtn.textContent = "Creating Account...";
+      signupBtn.disabled = true;
+
+      // Firebase Create User
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // Update Display Name
+          userCredential.user.updateProfile({ displayName: name })
+            .then(() => {
+              showToast("Account Created! Redirecting...", "success");
+              setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
+            });
+        })
+        .catch((error) => {
+          console.error(error);
+          signupBtn.textContent = "Sign Up";
+          signupBtn.disabled = false;
+          let msg = error.message;
+          if (error.code === 'auth/email-already-in-use') msg = "Email already registered.";
+          showToast(msg, "error");
+        });
+    });
+
+    // --- 4. GOOGLE SIGNUP ---
+    document.getElementById('googleBtn').addEventListener('click', () => {
+      auth.signInWithPopup(googleProvider)
+        .then((result) => {
+          showToast("Signed in with Google! Redirecting...", "success");
+          setTimeout(() => { window.location.href = 'dashboard.html'; }, 1500);
+        })
+        .catch((error) => {
+          console.error(error);
+          showToast("Google Sign-In Failed.", "error");
+        });
+    });
+
+  </script>
+</body>
+</html>
